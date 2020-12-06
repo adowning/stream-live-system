@@ -1,0 +1,21 @@
+.btn-circle {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(93, 195, 153);
+  width: 40px;
+  height: 40px;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.btn-circle:hover {
+  background-color: rgb(28, 184, 119);
+}
+
+.cruz {
+  color: #FFF;
+  font-size: 3rem;
+  font-weight: 300;
+}

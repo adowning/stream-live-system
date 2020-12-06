@@ -1,0 +1,52 @@
+version: '3.7'
+
+services:
+  backend:
+    container_name: 'micro-live-servicemonster-backend'
+    image: node:10.16-slim
+    working_dir: /backend/src
+    entrypoint: ./.docker/entrypoint.sh
+    volumes:
+      - ./:/backend/src
+    ports:
+      - '4445:4444'
+    depends_on:
+      - database
+    networks:
+      - app-network
+      - micro-live-manager_app-network
+      - rabbitmq_queue-live
+
+  database:
+    container_name: 'micro-live-servicemonster-database'
+    image: library/postgres:9.6-alpine
+    ports:
+      - '5434:5432'
+    volumes:
+      - ./.docker/database/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root@123
+      - POSTGRES_DB=database
+    restart: always
+    tty: true
+    networks:
+      - app-network
+
+  redis:
+    image: redis:alpine
+    container_name: micro-live-servicemonster-redis
+    # ports:
+    #   - '6379:6379'
+    volumes:
+      - ./.docker/redisdata:/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+  micro-live-manager_app-network:
+    external: true
+  rabbitmq_queue-live:
+    external: true

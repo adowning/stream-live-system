@@ -1,0 +1,58 @@
+version: "3.7"
+
+services:
+  backend:
+    container_name: "micro-live-manager-backend"
+    build: 
+      context: ./backend
+    entrypoint: ./.docker/entrypoint.sh
+    volumes:
+      - ./backend:/backend/src
+    ports: 
+      - "3333:3333"
+      - "9000:9000"
+    depends_on: 
+      - database
+    networks:
+      - app-network
+  
+  database:
+    container_name: "micro-live-manager-database"
+    image: library/postgres:9.6-alpine
+    ports: 
+      - "5431:5432"
+    volumes: 
+      - ./backend/.docker/database/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root@123
+      - POSTGRES_DB=database
+    restart: always
+    tty: true
+    networks: 
+      - app-network
+
+  frontend:
+    build: 
+      context: ./frontend
+    entrypoint: ./.docker/entrypoint.sh
+    container_name: micro-live-manager-frontend
+    ports:
+      - 8000:8000
+    volumes:
+      - ./frontend:/frontend/src
+    networks:
+      - app-network
+    tty: true
+  
+  redis:
+    image: redis:alpine
+    container_name: micro-live-manager-redis
+    volumes:
+      - ./backend/.docker/redisdata:/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

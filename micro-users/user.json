@@ -1,0 +1,21 @@
+id|bigint||not null|nextval('user_id_seq'::regclass)
+externalId|character varying||not null|
+name|character varying||not null|
+username|character varying||not null|
+emailAddress|character varying||not null|
+createdAt|timestamp without time zone||not null|
+updatedAt|timestamp without time zone||not null|
+public|chat_messages|table|root
+public|migrations|table|root
+public|migrations_id_seq|sequence|root
+public|servermonster_messages|table|root
+public|user|table|root
+public|userHistory|table|root
+public|userHistory_id_seq|sequence|root
+public|user_id_seq|sequence|root
+database|root|UTF8|en_US.utf8|en_US.utf8|
+postgres|root|UTF8|en_US.utf8|en_US.utf8|
+template0|root|UTF8|en_US.utf8|en_US.utf8|=c/root
+root=CTc/root
+template1|root|UTF8|en_US.utf8|en_US.utf8|=c/root
+root=CTc/root
